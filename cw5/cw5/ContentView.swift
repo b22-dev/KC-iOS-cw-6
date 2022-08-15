@@ -10,50 +10,19 @@ import SwiftUI
 struct ContentView: View {
     @State var counter: [Int] = [0, 0, 0]
     var body: some View {
-        VStack{
-            HStack{
-                Text("أستغفر الله العظيم").font(.title)
-                Spacer()
-                Text("\(counter[0])")
-                    .font(.largeTitle)
-                    .frame(width: 100, height: 100, alignment: .center)
-                    .foregroundColor(.white)
-                    .background(Color.green)
-                    .clipShape(Circle())
-                    .padding()
-                    .onTapGesture {
-                        counter[0] = counter[0] + 1
-                    }
-            }.padding()
-            HStack{
-                Spacer()
-                Text("الحمدلله").font(.title)
-                Spacer()
-                Text("\(counter[1])")
-                    .font(.largeTitle)
-                    .frame(width: 100, height: 100, alignment: .center)
-                    .foregroundColor(.white)
-                    .background(Color.green)
-                    .clipShape(Circle())
-                    .padding()
-                    .onTapGesture {
-                        counter[1] = counter[1] + 1
-                    }
-            }.padding()
-            HStack{
-                Text("سبحان الله وبحمده").font(.title)
-                Spacer()
-                Text("\(counter[2])")
-                    .font(.largeTitle)
-                    .frame(width: 100, height: 100, alignment: .center)
-                    .foregroundColor(.white)
-                    .background(Color.green)
-                    .clipShape(Circle())
-                    .padding()
-                    .onTapGesture {
-                        counter[2] = counter[2] + 1
-                    }
-            }.padding()
+        ZStack{
+            Image("prayer")
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea()
+                .frame(width: 350)
+            
+            VStack{
+            Counter(myCounter: $counter[0], title: "استغفر الله العظيم")
+            Counter(myCounter: $counter[2], title: "سبحان الله وبحمده")
+            Counter(myCounter: $counter[1], title: "سبحان الله العظيم")
+
+            }
         }
     }
 }
@@ -61,8 +30,35 @@ struct ContentView: View {
 
 // يجب عمل extract
 
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+    }
+}
+
+struct Counter: View {
+    @Binding var myCounter: Int
+    @State var title: String
+    var body: some View {
+        HStack{
+            Text(title).font(.title)
+                .foregroundColor(.white)
+            Spacer()
+            ZStack{
+                Color.black
+                    .frame(width: 125, height: 125)
+                    .clipShape(Circle())
+                    .opacity(0.2)
+            Text("\(myCounter)")
+                .font(.largeTitle)
+                .frame(width: 100, height: 100, alignment: .center)
+                .foregroundColor(.white)
+                .padding()
+                .onTapGesture {
+                    myCounter = myCounter + 1
+                }
+            }.padding()
+        }
     }
 }
